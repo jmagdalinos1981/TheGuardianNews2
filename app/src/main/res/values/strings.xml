@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">TheGuardianNews</string>
+    <string name="app_name">The Guardian News</string>
+    
+    <!-- Drawer Menu Items -->
+    <string name="menu_business">Business</string>
+    <string name="menu_culture">Culture</string>
+    <string name="menu_environment">Environment</string>
+    <string name="menu_life_style">Life &amp; Style</string>
+    <string name="menu_politics">Politics</string>
+    <string name="menu_science">Science</string>
+    <string name="menu_sport">Sport</string>
+    <string name="menu_travel">Travel</string>
 </resources>
