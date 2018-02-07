@@ -1,19 +1,24 @@
-package com.johnmagdalinos.android.theguardiannews.View;
+package com.johnmagdalinos.android.theguardiannews.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.johnmagdalinos.android.theguardiannews.Presenter.MvPContract.BasePresenter;
-import com.johnmagdalinos.android.theguardiannews.Presenter.MvPContract.BaseView;
-import com.johnmagdalinos.android.theguardiannews.Presenter.NewsPresenter;
 import com.johnmagdalinos.android.theguardiannews.R;
+import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
+import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BasePresenter;
+import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BaseView;
+import com.johnmagdalinos.android.theguardiannews.presenter.NewsPresenter;
+
+import java.util.ArrayList;
 
 /**
  * Fragment used to display a list of news articles using a RecyclerView
@@ -26,6 +31,7 @@ public class NewsFragment extends Fragment implements BaseView {
     private RecyclerView mRecyclerView;
     private String mSectionTitle;
     private BasePresenter mPresenter;
+    private NewsAdapter mAdapter;
 
     /** Keys for reading and saving the Section Title */
     private static final String KEY_SECTION = "section";
@@ -38,6 +44,8 @@ public class NewsFragment extends Fragment implements BaseView {
         fragment.setArguments(args);
         return fragment;
     }
+
+    private static final String TAG = NewsFragment.class.getSimpleName();
 
     @Nullable
     @Override
@@ -52,6 +60,12 @@ public class NewsFragment extends Fragment implements BaseView {
 
         mTitleTextView = rootView.findViewById(R.id.tv_fragment_news);
         mRecyclerView = rootView.findViewById(R.id.rv_fragment_news);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new NewsAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
 
         if (mPresenter == null) {
             mPresenter = new NewsPresenter();
@@ -74,8 +88,9 @@ public class NewsFragment extends Fragment implements BaseView {
     }
 
     @Override
-    public void showNews(String title) {
-        mTitleTextView.setText(title);
+    public void showNews(ArrayList<NewsArticle> articles) {
+        Log.v(TAG, "News received!");
+        mAdapter.swapList(articles);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.theguardiannews.View;
+package com.johnmagdalinos.android.theguardiannews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,10 +6,9 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.johnmagdalinos.android.theguardiannews.Presenter.NewsPresenter;
+import com.johnmagdalinos.android.theguardiannews.presenter.NewsPresenter;
 import com.johnmagdalinos.android.theguardiannews.R;
 
 public class MainActivity extends AppCompatActivity {

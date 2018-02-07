@@ -10,4 +10,12 @@
     <string name="menu_science">Science</string>
     <string name="menu_sport">Sport</string>
     <string name="menu_travel">Travel</string>
+
+    <!-- Placeholders -->
+    <string name="placeholder_list_item_title">Ferrari present their new Formula 1 car. The
+    driver line up will be the same as last year\'s, with former champions Sebastian Vettel
+        and Kimi Raikkonen at the wheel!</string>
+    <string name="placeholder_list_item_section">Sports</string>
+    <string name="placeholder_list_item_date">08/02/2018</string>
+    <string name="placeholder_list_item_time">18:48</string>
 </resources>
