@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_drawer_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start">
+    android:gravity="start"
+    android:paddingTop="@dimen/margin_drawer_item"
+    android:paddingBottom="@dimen/margin_drawer_item"
+    android:paddingStart="@dimen/margin_drawer_start"
+    android:paddingEnd="@dimen/margin_drawer_start"
+    android:textSize="@dimen/text_size_drawer_item"
+    android:textColor="@android:color/black"
+    tools:text="test"
+    android:background="?attr/selectableItemBackground">
 </TextView>

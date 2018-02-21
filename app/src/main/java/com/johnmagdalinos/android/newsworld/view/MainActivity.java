@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 
 import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
@@ -36,6 +39,28 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FrameLayout contentLayout = findViewById(R.id.fl_main_content);
+        mDrawerLayout = findViewById(R.id.dl_main_drawer);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        // Get the height of the status bar and add it tot the height of the toolbar
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) toolbar
+                .getLayoutParams();
+        layoutParams.height += getStatusBarHeight();
+
+        // Set the height of the status bar as the padding for the content and toolbar
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+        contentLayout.setPadding(0, getStatusBarHeight(), 0, getStatusBarHeight());
+
+        // Setup the Drawer Toggle
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                toolbar, R.string.app_name, R.string.app_name);
+        mDrawerLayout.addDrawerListener(drawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        drawerToggle.syncState();
+
         // Instantiate the presenter
         mPresenter = new NewsPresenter();
 
@@ -48,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnC
         mSelectedSection = mSharedPrefs.getInt(Constants.KEY_SECTION, 0);
 
         // Setup the navigation drawer
-        mDrawerLayout = findViewById(R.id.dl_main_drawer);
-
         RecyclerView drawerRecyclerView = findViewById(R.id.rv_main_drawer);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         drawerRecyclerView.setLayoutManager(linearLayoutManager);
@@ -88,5 +111,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnC
 
         // Display the correct fragment
         loadFragment(position);
+    }
+
+    /** Calculates the StatusBar height to use it as a padding for the toolbar */
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen","android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

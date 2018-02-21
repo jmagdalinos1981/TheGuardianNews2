@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation Drawer -->
+    <dimen name="text_size_drawer_title">32sp</dimen>
+    <dimen name="text_size_drawer_subtitle">14sp</dimen>
+    <dimen name="text_size_drawer_item">14sp</dimen>
+    <dimen name="margin_drawer_item">8dp</dimen>
+    <dimen name="margin_drawer_start">16dp</dimen>
+    <dimen name="margin_drawer_subtitle">32dp</dimen>
+</resources>

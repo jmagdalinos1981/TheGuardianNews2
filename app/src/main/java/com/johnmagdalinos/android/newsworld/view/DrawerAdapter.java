@@ -50,7 +50,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
         // Set the background color of the selected view
         if (position == mSelectedItem) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.drawerHighlight));
         } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color
                     .transparent));

@@ -65,11 +65,11 @@ public class SplashActivity extends AppCompatActivity {
                     .getParcelableArrayListExtra(Constants.KEY_SECTIONS_BROADCAST_EXTRAS));
             startActivity(activityIntent);
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             finish();
         }
     }

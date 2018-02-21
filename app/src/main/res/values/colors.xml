@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#214583</color>
+    <color name="colorPrimary">#16325B</color>
+    <color name="colorPrimaryDark">#07172B</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Drawer colors -->
+    <color name="lightBlue">#214583</color>
+    <color name="drawerHighlight">#E0E0E0</color>
 </resources>
