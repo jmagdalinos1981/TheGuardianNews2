@@ -1,15 +1,57 @@
 <resources>
-    <string name="app_name">The Guardian News</string>
-    
+    <string name="app_name">NewsWorld</string>
+
     <!-- Drawer Menu Items -->
+    <string name="menu_all_news">All news</string>
+    <string name="menu_artanddesign">Art &amp; Design</string>
+    <string name="menu_books">Books</string>
     <string name="menu_business">Business</string>
     <string name="menu_culture">Culture</string>
+    <string name="menu_education">Education</string>
     <string name="menu_environment">Environment</string>
+    <string name="menu_fashion">Fashion</string>
+    <string name="menu_film">Film</string>
+    <string name="menu_football">Football</string>
+    <string name="menu_games">Games</string>
     <string name="menu_life_style">Life &amp; Style</string>
+    <string name="menu_money">Money</string>
+    <string name="menu_music">Music</string>
+    <string name="menu_commentisfree">Opinion</string>
     <string name="menu_politics">Politics</string>
     <string name="menu_science">Science</string>
+    <string name="menu_society">Society</string>
     <string name="menu_sport">Sport</string>
+    <string name="menu_stage">Stage</string>
+    <string name="menu_technology">Technology</string>
     <string name="menu_travel">Travel</string>
+    <string name="menu_weather">Weather</string>
+    <string name="menu_world">World</string>
+
+    <!-- API Section Ids -->
+    <string name="section_id_all_news" translatable="false">allnews</string>
+    <string name="section_id_artanddesign" translatable="false">artanddesign</string>
+    <string name="section_id_books" translatable="false">books</string>
+    <string name="section_id_business" translatable="false">business</string>
+    <string name="section_id_culture" translatable="false">culture</string>
+    <string name="section_id_education" translatable="false">education</string>
+    <string name="section_id_environment" translatable="false">environment</string>
+    <string name="section_id_fashion" translatable="false">fashion</string>
+    <string name="section_id_film" translatable="false">film</string>
+    <string name="section_id_football" translatable="false">football</string>
+    <string name="section_id_games" translatable="false">games</string>
+    <string name="section_id_life_style" translatable="false">lifeandstyle</string>
+    <string name="section_id_money" translatable="false">money</string>
+    <string name="section_id_music" translatable="false">music</string>
+    <string name="section_id_commentisfree" translatable="false">commentisfree</string>
+    <string name="section_id_politics" translatable="false">politics</string>
+    <string name="section_id_science" translatable="false">science</string>
+    <string name="section_id_society" translatable="false">society</string>
+    <string name="section_id_sport" translatable="false">sport</string>
+    <string name="section_id_stage" translatable="false">stage</string>
+    <string name="section_id_technology" translatable="false">technology</string>
+    <string name="section_id_travel" translatable="false">travel</string>
+    <string name="section_id_weather" translatable="false">weather</string>
+    <string name="section_id_world" translatable="false">world</string>
 
     <!-- Placeholders -->
     <string name="placeholder_list_item_title">Ferrari present their new Formula 1 car. The

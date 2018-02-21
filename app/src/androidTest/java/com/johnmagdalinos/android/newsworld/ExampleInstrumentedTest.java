@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.theguardiannews;
+package com.johnmagdalinos.android.newsworld;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Section ids for use in the API -->
+    <string-array name="section_ids">
+        <item>@string/section_id_all_news</item>
+        <item>@string/section_id_artanddesign</item>
+        <item>@string/section_id_books</item>
+        <item>@string/section_id_business</item>
+        <item>@string/section_id_culture</item>
+        <item>@string/section_id_education</item>
+        <item>@string/section_id_environment</item>
+        <item>@string/section_id_fashion</item>
+        <item>@string/section_id_film</item>
+        <item>@string/section_id_football</item>
+        <item>@string/section_id_games</item>
+        <item>@string/section_id_life_style</item>
+        <item>@string/section_id_money</item>
+        <item>@string/section_id_music</item>
+        <item>@string/section_id_commentisfree</item>
+        <item>@string/section_id_politics</item>
+        <item>@string/section_id_science</item>
+        <item>@string/section_id_society</item>
+        <item>@string/section_id_sport</item>
+        <item>@string/section_id_stage</item>
+        <item>@string/section_id_technology</item>
+        <item>@string/section_id_travel</item>
+        <item>@string/section_id_weather</item>
+        <item>@string/section_id_world</item>
+    </string-array>
+
+    <!-- Section titles for use in the Drawer -->
+    <string-array name="section_titles">
+        <item>@string/menu_all_news</item>
+        <item>@string/menu_artanddesign</item>
+        <item>@string/menu_books</item>
+        <item>@string/menu_business</item>
+        <item>@string/menu_culture</item>
+        <item>@string/menu_education</item>
+        <item>@string/menu_environment</item>
+        <item>@string/menu_fashion</item>
+        <item>@string/menu_film</item>
+        <item>@string/menu_football</item>
+        <item>@string/menu_games</item>
+        <item>@string/menu_life_style</item>
+        <item>@string/menu_money</item>
+        <item>@string/menu_music</item>
+        <item>@string/menu_commentisfree</item>
+        <item>@string/menu_politics</item>
+        <item>@string/menu_science</item>
+        <item>@string/menu_society</item>
+        <item>@string/menu_sport</item>
+        <item>@string/menu_stage</item>
+        <item>@string/menu_technology</item>
+        <item>@string/menu_travel</item>
+        <item>@string/menu_weather</item>
+        <item>@string/menu_world</item>
+    </string-array>
+</resources>

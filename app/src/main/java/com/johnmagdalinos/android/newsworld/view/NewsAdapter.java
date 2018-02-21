@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.theguardiannews.view;
+package com.johnmagdalinos.android.newsworld.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.johnmagdalinos.android.theguardiannews.R;
-import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.R;
+import com.johnmagdalinos.android.newsworld.model.NewsArticle;
 
 import java.util.ArrayList;
 

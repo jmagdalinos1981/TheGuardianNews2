@@ -1,8 +1,8 @@
-package com.johnmagdalinos.android.theguardiannews.presenter;
+package com.johnmagdalinos.android.newsworld.presenter;
 
-import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
-import com.johnmagdalinos.android.theguardiannews.model.SampleModel;
-import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BaseView;
+import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.SampleModel;
+import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BaseView;
 
 import java.util.ArrayList;
 

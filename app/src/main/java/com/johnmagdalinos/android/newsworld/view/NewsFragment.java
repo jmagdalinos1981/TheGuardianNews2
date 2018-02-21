@@ -1,22 +1,21 @@
-package com.johnmagdalinos.android.theguardiannews.view;
+package com.johnmagdalinos.android.newsworld.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.johnmagdalinos.android.theguardiannews.R;
-import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
-import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BasePresenter;
-import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BaseView;
-import com.johnmagdalinos.android.theguardiannews.presenter.NewsPresenter;
+import com.johnmagdalinos.android.newsworld.R;
+import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BasePresenter;
+import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BaseView;
+import com.johnmagdalinos.android.newsworld.presenter.NewsPresenter;
 
 import java.util.ArrayList;
 
@@ -35,6 +34,7 @@ public class NewsFragment extends Fragment implements BaseView {
 
     /** Keys for reading and saving the Section Title */
     private static final String KEY_SECTION = "section";
+    private static final String TAG = NewsFragment.class.getSimpleName();
 
     /** Public constructor */
     public static NewsFragment newInstance(String section) {
@@ -44,8 +44,6 @@ public class NewsFragment extends Fragment implements BaseView {
         fragment.setArguments(args);
         return fragment;
     }
-
-    private static final String TAG = NewsFragment.class.getSimpleName();
 
     @Nullable
     @Override
@@ -89,7 +87,6 @@ public class NewsFragment extends Fragment implements BaseView {
 
     @Override
     public void showNews(ArrayList<NewsArticle> articles) {
-        Log.v(TAG, "News received!");
         mAdapter.swapList(articles);
     }
 

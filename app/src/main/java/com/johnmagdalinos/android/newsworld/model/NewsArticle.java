@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.theguardiannews.model;
+package com.johnmagdalinos.android.newsworld.model;
 
 /**
  * Represents a single article from the API

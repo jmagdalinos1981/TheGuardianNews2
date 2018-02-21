@@ -1,9 +1,9 @@
-package com.johnmagdalinos.android.theguardiannews.utilities;
+package com.johnmagdalinos.android.newsworld.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.johnmagdalinos.android.theguardiannews.model.JSONModel;
-import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.JSONObject;
+import com.johnmagdalinos.android.newsworld.model.NewsArticle;
 
 import java.util.ArrayList;
 
@@ -19,12 +19,9 @@ import retrofit2.http.Query;
  * Contains all the utilities used by the model to access the Guardian API.
  */
 
-public class NetworkUtils implements Callback<JSONModel> {
+public class NetworkUtils implements Callback<JSONObject> {
     /** Member variables */
     private RetrofitCallback mCallback;
-
-    /** Keys used in the API */
-    private static final String KEY_API_KEY = "api-key";
 
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
@@ -37,11 +34,13 @@ public class NetworkUtils implements Callback<JSONModel> {
     /** Retrofit Interface */
     public interface TheGuardianAPI {
         @GET("/search")
-        Call<JSONModel> loadArticles(@Query(KEY_API_KEY) String apiKey);
+        Call<JSONObject> loadArticles(
+                @Query(Constants.KEY_SECTION) String section,
+                @Query(Constants.KEY_API_KEY) String apiKey);
     }
 
     /** Setups Retrofit and Gson */
-    public void start(RetrofitCallback retrofitCallback) {
+    public void start(RetrofitCallback retrofitCallback, String section) {
         mCallback = retrofitCallback;
 
         Gson gson = new GsonBuilder()
@@ -55,16 +54,22 @@ public class NetworkUtils implements Callback<JSONModel> {
 
         TheGuardianAPI theGuardianAPI = retrofit.create(TheGuardianAPI.class);
 
-        Call<JSONModel> call = theGuardianAPI.loadArticles(ApiKeys.API_KEY);
+        Call<JSONObject> call = null;
+        // Check if the user selected "All news"
+        if (section.equals("allnews")) {
+            call = theGuardianAPI.loadArticles(null, ApiKeys.API_KEY);
+        } else {
+            call = theGuardianAPI.loadArticles(section, ApiKeys.API_KEY);
+        }
         call.enqueue(this);
     }
 
     /** Called when Retrofit was successful */
     @Override
-    public void onResponse(Call<JSONModel> call, Response<JSONModel> response) {
+    public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
         if (response.isSuccessful()) {
-            JSONModel model = response.body();
-            JSONModel.Response jsonResponse = model.getResponse();
+            JSONObject model = response.body();
+            JSONObject.Response jsonResponse = model.getResponse();
             ArrayList<NewsArticle> articles = jsonResponse.getResults();
 
             mCallback.onRetrofitCompleted(articles);
@@ -73,7 +78,7 @@ public class NetworkUtils implements Callback<JSONModel> {
 
     /** Called when Retrifut Failed */
     @Override
-    public void onFailure(Call<JSONModel> call, Throwable t) {
+    public void onFailure(Call<JSONObject> call, Throwable t) {
         t.printStackTrace();
     }
 

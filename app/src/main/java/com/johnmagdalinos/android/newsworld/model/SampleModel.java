@@ -1,7 +1,7 @@
-package com.johnmagdalinos.android.theguardiannews.model;
+package com.johnmagdalinos.android.newsworld.model;
 
-import com.johnmagdalinos.android.theguardiannews.presenter.MvPContract.BasePresenter;
-import com.johnmagdalinos.android.theguardiannews.utilities.NewsAsyncTask;
+import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BasePresenter;
+import com.johnmagdalinos.android.newsworld.utilities.NewsAsyncTask;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class SampleModel implements NewsAsyncTask.onTaskCompletedCallback {
         mBasePresenter = basePresenter;
         NewsAsyncTask newsAsyncTask = new NewsAsyncTask();
 
-        newsAsyncTask.setAsyncTaskCallback(sectionTitle, this);
+        newsAsyncTask.setAsyncTaskCallback(this, sectionTitle);
     }
 
     @Override

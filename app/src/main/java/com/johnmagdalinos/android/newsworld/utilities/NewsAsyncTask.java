@@ -1,8 +1,8 @@
-package com.johnmagdalinos.android.theguardiannews.utilities;
+package com.johnmagdalinos.android.newsworld.utilities;
 
 import android.os.AsyncTask;
 
-import com.johnmagdalinos.android.theguardiannews.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.NewsArticle;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class NewsAsyncTask extends AsyncTask<String, Void, ArrayList<NewsArticle
         void result(ArrayList<NewsArticle> articles);
     }
 
-    public void setAsyncTaskCallback(String section, onTaskCompletedCallback callback) {
+    public void setAsyncTaskCallback(onTaskCompletedCallback callback, String section) {
         this.mCallback = callback;
 
         execute(section);
@@ -29,7 +29,7 @@ public class NewsAsyncTask extends AsyncTask<String, Void, ArrayList<NewsArticle
     @Override
     protected ArrayList<NewsArticle> doInBackground(String... strings) {
         NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.start(this);
+        networkUtils.start(this, strings[0]);
 
         return null;
     }

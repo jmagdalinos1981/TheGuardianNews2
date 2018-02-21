@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.theguardiannews.model;
+package com.johnmagdalinos.android.newsworld.model;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Model used in GSON to parse the JSON result from the API
  */
 
-public class JSONModel {
+public class JSONObject {
     private Response response;
 
     public Response getResponse() {
