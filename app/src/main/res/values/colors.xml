@@ -7,4 +7,7 @@
     <!-- Drawer colors -->
     <color name="lightBlue">#214583</color>
     <color name="drawerHighlight">#E0E0E0</color>
+
+    <!-- RecyclerView Divider -->
+    <color name="lightGrey">#A7A7A7</color>
 </resources>

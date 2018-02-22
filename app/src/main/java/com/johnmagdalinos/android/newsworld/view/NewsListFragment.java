@@ -1,14 +1,16 @@
 package com.johnmagdalinos.android.newsworld.view;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.johnmagdalinos.android.newsworld.R;
@@ -23,22 +25,36 @@ import java.util.ArrayList;
  * Fragment used to display a list of news articles using a RecyclerView
  */
 
-public class NewsFragment extends Fragment implements BaseView {
+public class NewsListFragment extends Fragment implements BaseView, NewsAdapter.NewsAdapterCallback {
 
     /** Member variables */
-    private TextView mTitleTextView;
     private RecyclerView mRecyclerView;
     private String mSectionTitle;
     private BasePresenter mPresenter;
     private NewsAdapter mAdapter;
+    private ArticleCallback mCallback;
 
     /** Keys for reading and saving the Section Title */
     private static final String KEY_SECTION = "section";
-    private static final String TAG = NewsFragment.class.getSimpleName();
 
-    /** Public constructor */
-    public static NewsFragment newInstance(String section) {
-        NewsFragment fragment = new NewsFragment();
+    /** Callback for passing the url to the MainActivity */
+    public interface ArticleCallback {
+        void onArticleClicked(String url);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (ArticleCallback) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement ArticleCallback");
+        }
+    }
+
+    /** Class constructor */
+    public static NewsListFragment newInstance(String section) {
+        NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putString(KEY_SECTION, section);
         fragment.setArguments(args);
@@ -56,13 +72,16 @@ public class NewsFragment extends Fragment implements BaseView {
             mSectionTitle = getArguments().getString(KEY_SECTION);
         }
 
-        mTitleTextView = rootView.findViewById(R.id.tv_fragment_news);
         mRecyclerView = rootView.findViewById(R.id.rv_fragment_news);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new NewsAdapter(null);
+
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_drawable);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(drawable);
+        mRecyclerView.addItemDecoration(itemDecoration);
+        mAdapter = new NewsAdapter(this,null);
         mRecyclerView.setAdapter(mAdapter);
 
         if (mPresenter == null) {
@@ -93,5 +112,11 @@ public class NewsFragment extends Fragment implements BaseView {
     @Override
     public void showToastMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    /** Receives the clicked article's url and passes it to the Main Activity */
+    @Override
+    public void NewsClicked(String url) {
+        mCallback.onArticleClicked(url);
     }
 }

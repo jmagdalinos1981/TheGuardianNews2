@@ -7,4 +7,12 @@
     <dimen name="margin_drawer_item">8dp</dimen>
     <dimen name="margin_drawer_start">16dp</dimen>
     <dimen name="margin_drawer_subtitle">32dp</dimen>
+    <dimen name="drawer_header_height">130dp</dimen>
+    <dimen name="drawer_header_image_height">90dp</dimen>
+    
+    <!-- News List Item -->
+    <dimen name="padding_top_list_item">8dp</dimen>
+    <dimen name="padding_start_list_item">16dp</dimen>
+    <dimen name="padding_between_list_item">8dp</dimen>
+
 </resources>

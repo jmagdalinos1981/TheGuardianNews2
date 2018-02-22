@@ -5,7 +5,7 @@ import com.johnmagdalinos.android.newsworld.model.NewsArticle;
 import java.util.ArrayList;
 
 /**
- * Contains the interfaces and methods used by the NewsPresenter and the NewsFragment in order to
+ * Contains the interfaces and methods used by the NewsPresenter and the NewsListFragment in order to
  * allow communication between the two classes
  */
 

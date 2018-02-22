@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
 import java.util.ArrayList;
 
@@ -17,11 +18,18 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     /** Member variables */
+    private NewsAdapterCallback mCallback;
     private ArrayList<NewsArticle> mArticles;
     private TextView mTitleTextView, mSectionTextView, mDateTextView, mTimeTextView;
 
+    /** Interface that handles click events */
+    public interface NewsAdapterCallback {
+        void NewsClicked(String url);
+    }
+
     /** Class constructor */
-    public NewsAdapter(ArrayList<NewsArticle> articles) {
+    public NewsAdapter(NewsAdapterCallback callback, ArrayList<NewsArticle> articles) {
+        mCallback = callback;
         mArticles = articles;
     }
 
@@ -35,10 +43,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
+        String dateSource = mArticles.get(position).getPublicationDate();
         mTitleTextView.setText(mArticles.get(position).getWebTitle());
         mSectionTextView.setText(mArticles.get(position).getSectionId());
-        mDateTextView.setText(mArticles.get(position).getPublicationDate());
-        mTimeTextView.setText(mArticles.get(position).getPublicationDate());
+        mDateTextView.setText(DataUtilities.convertDate(dateSource));
+        mTimeTextView.setText(DataUtilities.convertTime(dateSource));
     }
 
     @Override
@@ -60,7 +69,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return position;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public NewsViewHolder(View itemView) {
             super(itemView);
 
@@ -68,6 +77,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mSectionTextView = itemView.findViewById(R.id.tv_list_item_section);
             mDateTextView = itemView.findViewById(R.id.tv_list_item_date);
             mTimeTextView = itemView.findViewById(R.id.tv_list_item_time);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            String url = mArticles.get(getAdapterPosition()).getWebUrl();
+            mCallback.NewsClicked(url);
         }
     }
 

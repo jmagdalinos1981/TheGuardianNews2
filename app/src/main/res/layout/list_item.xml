@@ -4,6 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/padding_top_list_item"
+    android:paddingBottom="@dimen/padding_top_list_item"
+    android:paddingStart="@dimen/padding_start_list_item"
+    android:paddingEnd="@dimen/padding_start_list_item"
+    android:background="?attr/selectableItemBackground"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
@@ -15,6 +20,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
+        android:paddingEnd="@dimen/padding_between_list_item"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/black"
         tools:text="@string/placeholder_list_item_title"/>
 
     <TextView
@@ -25,6 +33,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/tv_list_item_title"
+        android:paddingEnd="@dimen/padding_between_list_item"
         tools:text="@string/placeholder_list_item_section"/>
 
     <TextView
@@ -35,6 +44,8 @@
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
         android:maxLines="1"
+        android:paddingStart="@dimen/padding_between_list_item"
+        android:gravity="end"
         tools:text="@string/placeholder_list_item_date"/>
 
     <TextView
@@ -45,6 +56,8 @@
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/tv_list_item_date"
         android:maxLines="1"
+        android:paddingStart="@dimen/padding_between_list_item"
+        android:gravity="end"
         tools:text="@string/placeholder_list_item_time"/>
 
     <android.support.constraint.Guideline

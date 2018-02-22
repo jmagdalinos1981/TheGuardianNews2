@@ -12,53 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:background="@color/lightBlue">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="90dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:scaleType="fitEnd"
-                android:src="@drawable/newsworld_logo"/>
-
-            <TextView
-                android:id="@+id/tv_drawer_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/tv_drawer_subtitle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:paddingStart="@dimen/margin_drawer_start"
-                android:text="@string/app_name"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_drawer_title"/>
-
-            <TextView
-                android:id="@+id/tv_drawer_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:paddingStart="@dimen/margin_drawer_subtitle"
-                android:paddingBottom="@dimen/margin_drawer_item"
-                android:text="@string/powered_by"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_drawer_subtitle"
-                android:fontFamily="serif"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/tv_drawer_subtitle"
-                app:layout_constraintTop_toTopOf="@id/tv_drawer_subtitle"
-                app:layout_constraintBottom_toBottomOf="@id/tv_drawer_subtitle"
-                android:layout_marginStart="@dimen/margin_drawer_item"
-                android:src="@drawable/the_guardian_logo"/>
-        </android.support.constraint.ConstraintLayout>
+        <include layout="@layout/navigation_drawer_header"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_main_drawer"
