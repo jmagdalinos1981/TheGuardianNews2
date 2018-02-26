@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="@string/prefs_check_sync_key"
+        android:title="@string/prefs_check_sync_title"
+        android:summary="@string/prefs_check_sync_sum"
+        android:defaultValue="true"/>
+
+    <EditTextPreference
+        android:key="@string/prefs_sync_interval_key"
+        android:dependency="@string/prefs_check_sync_key"
+        android:title="@string/prefs_sync_interval_title"
+        android:defaultValue="5"/>
+
+    <ListPreference
+        android:key="@string/prefs_drawer_key"
+        android:title="@string/prefs_drawer_title"
+        android:dialogTitle="@string/prefs_drawer_dialog_title"
+        android:entries="@array/section_titles"
+        android:entryValues="@array/section_ids"/>
+</PreferenceScreen>
