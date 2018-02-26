@@ -8,6 +8,7 @@ public class Constants {
     /** Keys */
     public static final String KEY_API_KEY = "api-key";
     public static final String KEY_SECTION = "section";
+    public static final String KEY_URL = "url";
     public static final String KEY_FIRST_RUN = "first_run";
     public static final String KEY_SECTIONS_BROADCAST_EXTRAS = "section_extras";
 

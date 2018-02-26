@@ -13,16 +13,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:theme="@style/SplashTheme"
-            android:name=".view.SplashActivity">
+        <activity android:theme="@style/SplashTheme"
+            android:name=".view.SplashActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter></activity>
 
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.MainActivity"
+            android:launchMode="singleTop">
+        </activity>
+        <activity android:name=".utilities.SettingsActivity"/>
+
+        <activity android:name=".view.WebViewActivity"
+            android:parentActivityName=".view.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.MainActivity"/>
         </activity>
 
         <service

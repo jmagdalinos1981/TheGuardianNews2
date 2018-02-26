@@ -61,4 +61,18 @@
     <string name="placeholder_list_item_section">Sports</string>
     <string name="placeholder_list_item_date">08/02/2018</string>
     <string name="placeholder_list_item_time">18:48</string>
+
+    <!-- Menu -->
+    <string name="menu_search">Search…</string>
+    <string name="menu_settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="prefs_check_sync_key">check_sync</string>
+    <string name="prefs_sync_interval_key">sync_interval</string>
+    <string name="prefs_drawer_key">drawer</string>
+    <string name="prefs_check_sync_title">Enable Sync</string>
+    <string name="prefs_sync_interval_title">Sync every</string>
+    <string name="prefs_drawer_title">News Sections</string>
+    <string name="prefs_drawer_dialog_title">Select News Sections</string>
+    <string name="prefs_check_sync_sum">Enable regular synchronization of news</string>
 </resources>
