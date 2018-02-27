@@ -1,10 +1,10 @@
 package com.johnmagdalinos.android.newsworld.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,10 +23,12 @@ import com.johnmagdalinos.android.newsworld.model.NewsArticle;
 import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract;
 import com.johnmagdalinos.android.newsworld.presenter.NewsPresenter;
+import com.johnmagdalinos.android.newsworld.settings.SettingsActivity;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
-import com.johnmagdalinos.android.newsworld.utilities.SettingsActivity;
+import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Main activity displaying the news. Utilizes a drawer with a list of sections provided by the
@@ -36,18 +38,25 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements
         DrawerAdapter.OnClickCallback,
         MvPContract.BaseView,
-        NewsAdapter.NewsAdapterCallback {
+        NewsAdapter.NewsAdapterCallback,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Member variables */
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NewsPresenter mPresenter;
     private int mSelectedSection;
-    private ArrayList<Section> mSections;
-    private RecyclerView mRecyclerView;
+    private ArrayList<Section> mCurrentSections;
+    private RecyclerView mRecyclerView, mDrawerRecyclerView;
     private DrawerAdapter mDrawerAdapter;
     private NewsAdapter mNewsAdapter;
     private SharedPreferences mSharedPrefs;
+
+    /** Flag stating that a preference has changed */
+    private boolean mPreferenceChanged = false;
+
+    /** Keys for saving instance state */
+    private final String KEY_CURRENT_DRAWER_LIST = "drawer_list";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +64,12 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         // Get the list of News Sections
-        if (getIntent() != null) mSections = getIntent().getParcelableArrayListExtra(Constants
-                .KEY_SECTION);
+        if (savedInstanceState == null) {
+            if (getIntent() != null && !mPreferenceChanged) mCurrentSections = getIntent().getParcelableArrayListExtra
+                    (Constants.KEY_SECTION);
+        } else {
+            mCurrentSections = savedInstanceState.getParcelableArrayList(KEY_CURRENT_DRAWER_LIST);
+        }
 
         setupToolbar();
 
@@ -66,13 +79,37 @@ public class MainActivity extends AppCompatActivity implements
         mPresenter = new NewsPresenter();
 
         displayNewsList(mSelectedSection);
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(KEY_CURRENT_DRAWER_LIST, mCurrentSections);
+    }
+
+    /** Register the OnSharedPreferenceChangeListener */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    /** Unregister the OnSharedPreferenceChangeListener */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /** Sets up the toolbar */
     public void setupToolbar() {
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         // Get the height of the status bar and add it tot the height of the toolbar
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mToolbar
@@ -91,27 +128,26 @@ public class MainActivity extends AppCompatActivity implements
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 mToolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.addDrawerListener(drawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
 
         // Get the last News Section from the preferences
-        mSharedPrefs = this.getPreferences(Context.MODE_PRIVATE);
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mSelectedSection = mSharedPrefs.getInt(Constants.KEY_SECTION, 0);
 
         // Setup the navigation drawer
-        RecyclerView drawerRecyclerView = findViewById(R.id.rv_main_drawer);
+        mDrawerRecyclerView = findViewById(R.id.rv_main_drawer);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        drawerRecyclerView.setLayoutManager(linearLayoutManager);
-        drawerRecyclerView.setHasFixedSize(true);
+        mDrawerRecyclerView.setLayoutManager(linearLayoutManager);
+        mDrawerRecyclerView.setHasFixedSize(true);
 
-        mDrawerAdapter = new DrawerAdapter(this, this, mSections, mSelectedSection);
-        drawerRecyclerView.setAdapter(mDrawerAdapter);
+        mDrawerAdapter = new DrawerAdapter(this, this, mCurrentSections, mSelectedSection);
+        mDrawerRecyclerView.setAdapter(mDrawerAdapter);
     }
 
     /** Displays the news from the selected section */
     private void displayNewsList(int position) {
-        String selectedSection = mSections.get(position).getSection_id();
+        if (position > mCurrentSections.size() - 1) position = 0;
+        String selectedSection = mCurrentSections.get(position).getSection_id();
 
         mRecyclerView = findViewById(R.id.rv_news_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -127,11 +163,6 @@ public class MainActivity extends AppCompatActivity implements
         mPresenter.inputToPresenter(this, selectedSection);
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    /** Displays the fragment with the WebView */
-    private void loadArticle() {
-
     }
 
     /** Refreshes the navigation drawer's recycler view and displays the news fragment */
@@ -190,11 +221,29 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    /** Launches the WebViewActivity to display the selected article */
     @Override
     public void NewsClicked(String url) {
         Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
         intent.putExtra(Constants.KEY_URL, url);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        mPreferenceChanged = true;
+
+        if (key.equals(getString(R.string.prefs_drawer_key))) {
+            // Get the unselected values for the sections
+            Set<String> set = mSharedPrefs.getStringSet(getString(R.string.prefs_drawer_key), null);
+            ArrayList<String> selectedSections = new ArrayList<>(set);
+
+            mCurrentSections = DataUtilities.getSelectedSections(this, selectedSections);
+
+            // Refresh the drawer
+            mDrawerAdapter.swapList(mCurrentSections);
+            mDrawerRecyclerView.setAdapter(mDrawerAdapter);
+        }
     }
 
     // TODO: Save NewsList position

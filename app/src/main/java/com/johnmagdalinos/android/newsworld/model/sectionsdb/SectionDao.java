@@ -25,9 +25,6 @@ public interface SectionDao {
     @Query("SELECT * FROM sections")
     Section[] loadAllSections();
 
-    @Query("SELECT * FROM sections WHERE isSelected = :checked")
-    Section[] loadSelectedSection(boolean checked);
-
     @Query("DELETE FROM sections")
     void deleteAllSections();
 }

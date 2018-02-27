@@ -1,16 +1,20 @@
 package com.johnmagdalinos.android.newsworld.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.johnmagdalinos.android.newsworld.R;
+import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
-import com.johnmagdalinos.android.newsworld.utilities.SectionsService;
+import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Launcher Activity. Displays a splash screen while loading the News Sections.
@@ -19,58 +23,48 @@ import com.johnmagdalinos.android.newsworld.utilities.SectionsService;
 
 public class SplashActivity extends AppCompatActivity {
     /** Member variables */
-    private SectionsBroadcastReceiver mBroadcastReceiver;
-    private IntentFilter mSectionsIntentFilter;
-    // TODO: SaveInstanceState???
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Setup the BroadcastReceiver and its IntentFilter
-        mSectionsIntentFilter = new IntentFilter(Constants.SECTIONS_BROADCAST_ACTION);
-        mBroadcastReceiver = new SectionsBroadcastReceiver();
+        ArrayList<Section> sections = getSections();
 
-        // Start the IntentService to get the Sections
-        Intent serviceIntent = new Intent(SplashActivity.this, SectionsService.class);
-        startService(serviceIntent);
+        Intent activityIntent = new Intent(SplashActivity.this, MainActivity.class);
+        activityIntent.putParcelableArrayListExtra(Constants.KEY_SECTION, sections);
+        startActivity(activityIntent);
+        finish();
     }
 
+    /** Load the selected News Sections from the preferences */
+    private ArrayList<Section> getSections() {
+        ArrayList<Section> sections;
+        ArrayList<String> selectedSections;
 
-    /** Register the receiver */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, mSectionsIntentFilter);
-    }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-    /** Unregister the receiver */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-    }
+        boolean isFirstRun = sharedPreferences.getBoolean(Constants.KEY_FIRST_RUN, true);
 
-    /** Custom Broadcast listening to the results from the SectionsService */
-    public class SectionsBroadcastReceiver extends BroadcastReceiver {
-        /** Empty constructor */
-        private SectionsBroadcastReceiver(){}
+        if (isFirstRun) {
+            // Get the default sections
+            String[] defaultSections = getResources().getStringArray(R.array.section_default);
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
+            selectedSections = new ArrayList<>(Arrays.asList(defaultSections));
 
-            // Start the MainActivity and pass the Sections ArrayList
-            Intent activityIntent = new Intent(SplashActivity.this, MainActivity.class);
-            activityIntent.putParcelableArrayListExtra(Constants.KEY_SECTION, intent
-                    .getParcelableArrayListExtra(Constants.KEY_SECTIONS_BROADCAST_EXTRAS));
-            startActivity(activityIntent);
+            // Save the sections in the preferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.KEY_FIRST_RUN, false);
+            editor.apply();
 
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            finish();
+        } else {
+            // Get the user-selected sections
+            Set<String> set = sharedPreferences.getStringSet(getString(R.string.prefs_drawer_key), null);
+            selectedSections = new ArrayList<>(set);
         }
+
+        sections = DataUtilities.getSelectedSections(this, selectedSections);
+
+
+        return sections;
     }
 }

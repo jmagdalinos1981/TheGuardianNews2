@@ -12,9 +12,6 @@ import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
 import com.johnmagdalinos.android.newsworld.model.sectionsdb.SectionDatabase;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Created by Gianni on 08/02/2018.
  */
@@ -40,10 +37,9 @@ public class SectionsService extends IntentService {
         if (isFirstRun) initialSetup();
 
         // Get only the selected sections
-        ArrayList<Section> sections = new ArrayList<>(Arrays.asList(mDatabase.sectionDao().loadSelectedSection(true)));
 
         Intent resultIntent = new Intent(Constants.SECTIONS_BROADCAST_ACTION);
-        resultIntent.putParcelableArrayListExtra(Constants.KEY_SECTIONS_BROADCAST_EXTRAS, sections);
+//        resultIntent.putParcelableArrayListExtra(Constants.KEY_SECTIONS_BROADCAST_EXTRAS, sections);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(resultIntent);
     }
 
@@ -68,7 +64,7 @@ public class SectionsService extends IntentService {
             } else {
                 isSelected = false;
             }
-            Section section = new Section(sectionIds[i], sectionTitles[i], isSelected);
+            Section section = new Section(sectionIds[i], sectionTitles[i]);
             sections[i] = section;
         }
 

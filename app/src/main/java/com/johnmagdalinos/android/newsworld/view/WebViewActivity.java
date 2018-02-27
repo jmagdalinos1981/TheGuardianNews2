@@ -14,7 +14,7 @@ import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
 
 /**
- * Created by Gianni on 26/02/2018.
+ * Activity used to display a webpage in a WebView
  */
 
 public class WebViewActivity extends AppCompatActivity {

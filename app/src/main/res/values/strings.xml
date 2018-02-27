@@ -67,12 +67,22 @@
     <string name="menu_settings">Settings</string>
 
     <!-- Settings -->
+    <string name="prefs_sync_title">Sync settings</string>
+    <string name="prefs_sync_sum">Edit the synchronization and notification settings</string>
+
     <string name="prefs_check_sync_key">check_sync</string>
-    <string name="prefs_sync_interval_key">sync_interval</string>
-    <string name="prefs_drawer_key">drawer</string>
     <string name="prefs_check_sync_title">Enable Sync</string>
+    <string name="prefs_check_sync_sum">Enable regular synchronization of news</string>
+
+    <string name="prefs_sync_interval_key">sync_interval</string>
     <string name="prefs_sync_interval_title">Sync every</string>
+
+    <string name="prefs_notification_key">notification</string>
+    <string name="prefs_notification_title">Notifications</string>
+    <string name="prefs_notification_sum">Notify when news are synced</string>
+
+    <string name="prefs_drawer_key">drawer</string>
     <string name="prefs_drawer_title">News Sections</string>
     <string name="prefs_drawer_dialog_title">Select News Sections</string>
-    <string name="prefs_check_sync_sum">Enable regular synchronization of news</string>
+    <string name="prefs_drawer_sum">Select which News Sections will be available</string>
 </resources>

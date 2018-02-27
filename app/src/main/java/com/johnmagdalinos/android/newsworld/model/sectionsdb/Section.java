@@ -17,20 +17,17 @@ public class Section implements Parcelable {
     private String section_id;
 
     private String title;
-    private boolean isSelected;
 
     /** Class constructor */
-    public Section(String section_id, String title, boolean isSelected) {
+    public Section(String section_id, String title) {
         this.section_id = section_id;
         this.title = title;
-        this.isSelected = isSelected;
     }
 
     /** Class constructor for a parcel */
     protected Section(Parcel source) {
         section_id = source.readString();
         title = source.readString();
-        isSelected = source.readByte() != 0;
     }
 
     /** Getters */
@@ -40,9 +37,6 @@ public class Section implements Parcelable {
     public String getTitle() {
         return title;
     }
-    public boolean isSelected() {
-        return isSelected;
-    }
 
     /** Setters */
     public void setSection_id(String section_id) {
@@ -50,9 +44,6 @@ public class Section implements Parcelable {
     }
     public void setTitle(String title) {
         this.title = title;
-    }
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     @Override
@@ -64,7 +55,6 @@ public class Section implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(section_id);
         dest.writeString(title);
-        dest.writeByte((byte) (isSelected ? 1 : 0));
     }
 
     public static final Creator<Section> CREATOR = new Creator<Section>() {

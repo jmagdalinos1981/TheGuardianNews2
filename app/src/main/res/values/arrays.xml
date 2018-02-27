@@ -55,4 +55,32 @@
         <item>@string/menu_weather</item>
         <item>@string/menu_world</item>
     </string-array>
+
+    <!-- Default Boolean values for the Drawer -->
+    <string-array name="section_default">
+        <item>@string/section_id_all_news</item>
+        <item></item>
+        <item></item>
+        <item>@string/section_id_business</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>@string/section_id_life_style</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>@string/section_id_technology</item>
+        <item></item>
+        <item></item>
+        <item>@string/section_id_world</item>
+    </string-array>
 </resources>
