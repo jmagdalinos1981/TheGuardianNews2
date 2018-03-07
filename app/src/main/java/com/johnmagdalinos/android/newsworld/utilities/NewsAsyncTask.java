@@ -2,7 +2,7 @@ package com.johnmagdalinos.android.newsworld.utilities;
 
 import android.os.AsyncTask;
 
-import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 
 import java.util.ArrayList;
 

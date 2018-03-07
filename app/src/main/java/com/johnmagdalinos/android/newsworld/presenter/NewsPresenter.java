@@ -1,6 +1,6 @@
 package com.johnmagdalinos.android.newsworld.presenter;
 
-import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.model.SampleModel;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BaseView;
 

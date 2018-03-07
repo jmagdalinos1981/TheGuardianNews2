@@ -19,8 +19,8 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.NewsArticle;
-import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.Section;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract;
 import com.johnmagdalinos.android.newsworld.presenter.NewsPresenter;
 import com.johnmagdalinos.android.newsworld.settings.SettingsActivity;

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
-        String dateSource = mArticles.get(position).getPublicationDate();
+        String dateSource = mArticles.get(position).getWebPublicationDate();
         mTitleTextView.setText(mArticles.get(position).getWebTitle());
         mSectionTextView.setText(mArticles.get(position).getSectionId());
         mDateTextView.setText(DataUtilities.convertDate(dateSource));

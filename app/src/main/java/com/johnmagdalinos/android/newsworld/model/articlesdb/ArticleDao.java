@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.newsworld.model.sectionsdb;
+package com.johnmagdalinos.android.newsworld.model.articlesdb;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -12,19 +12,19 @@ import android.arch.persistence.room.Update;
  */
 
 @Dao
-public interface SectionDao {
+public interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSections(Section... sections);
+    void insertArticles(NewsArticle... newsArticles);
 
     @Update
-    void updateSections(Section... sections);
+    void updateArticles(NewsArticle... newsArticles);
 
     @Delete
-    void deleteSections(Section... sections);
+    void deleteArticles(NewsArticle... newsArticles);
 
-    @Query("SELECT * FROM sections")
-    Section[] loadAllSections();
+    @Query("SELECT * FROM articles")
+    NewsArticle[] loadAllArticles();
 
-    @Query("DELETE FROM sections")
-    void deleteAllSections();
+    @Query("DELETE FROM articles")
+    void deleteAllArticles();
 }

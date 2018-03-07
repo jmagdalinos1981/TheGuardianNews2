@@ -3,7 +3,7 @@ package com.johnmagdalinos.android.newsworld.utilities;
 import android.content.Context;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
+import com.johnmagdalinos.android.newsworld.model.Section;
 
 import java.text.DateFormat;
 import java.text.ParseException;

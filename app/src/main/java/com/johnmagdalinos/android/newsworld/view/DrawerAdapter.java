@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.sectionsdb.Section;
+import com.johnmagdalinos.android.newsworld.model.Section;
 
 import java.util.ArrayList;
 

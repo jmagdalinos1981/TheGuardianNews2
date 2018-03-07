@@ -1,5 +1,6 @@
 package com.johnmagdalinos.android.newsworld.model;
 
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BasePresenter;
 import com.johnmagdalinos.android.newsworld.utilities.NewsAsyncTask;
 

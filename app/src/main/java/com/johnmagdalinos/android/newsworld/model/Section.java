@@ -1,19 +1,14 @@
-package com.johnmagdalinos.android.newsworld.model.sectionsdb;
+package com.johnmagdalinos.android.newsworld.model;
 
-import android.arch.persistence.room.Entity;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 /**
- * A section object used by Room to create the database
+ * A section object used to populate the Navigation Drawer in the Main Activity
  */
 
-@Entity(tableName = "sections",
-        primaryKeys = {"section_id"})
 public class Section implements Parcelable {
-    /** Member variables/Database Columns */
-    @NonNull
+    /** Member variables */
     private String section_id;
 
     private String title;
@@ -68,5 +63,4 @@ public class Section implements Parcelable {
             return new Section[size];
         }
     };
-
 }

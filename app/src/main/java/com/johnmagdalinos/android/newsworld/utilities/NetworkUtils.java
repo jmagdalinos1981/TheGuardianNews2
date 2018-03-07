@@ -3,7 +3,7 @@ package com.johnmagdalinos.android.newsworld.utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.johnmagdalinos.android.newsworld.model.JSONObject;
-import com.johnmagdalinos.android.newsworld.model.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 
 import java.util.ArrayList;
 
