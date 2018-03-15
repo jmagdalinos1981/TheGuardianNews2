@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.newsworld.view;
+package com.johnmagdalinos.android.newsworld.view.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;

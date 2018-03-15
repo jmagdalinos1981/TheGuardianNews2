@@ -9,6 +9,7 @@ public class Constants {
     public static final String KEY_API_KEY = "api-key";
     public static final String KEY_URL = "url";
     public static final String KEY_SYNC_SERVICE = "sync_service";
+    public static final String KEY_SECTION_ID = "section_id";
 
     /** Keys for SharedPreferences */
     public static final String KEY_SECTIONS = "sections";

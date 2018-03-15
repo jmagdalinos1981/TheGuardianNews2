@@ -21,16 +21,8 @@ import retrofit2.http.Query;
  */
 
 public class NetworkUtils implements Callback<JSONObject> {
-    /** Member variables */
-    private RetrofitCallback mCallback;
-
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
-
-    /** Callback used to pass the News Articles to the Model */
-    public interface RetrofitCallback {
-        void onRetrofitCompleted(ArrayList<NewsArticle> articles);
-    }
 
     /** Retrofit Interface */
     public interface TheGuardianAPI {
@@ -41,9 +33,7 @@ public class NetworkUtils implements Callback<JSONObject> {
     }
 
     /** Setups Retrofit and Gson */
-    public void start(RetrofitCallback retrofitCallback, ArrayList<Section> sections) {
-        mCallback = retrofitCallback;
-
+    public void start(ArrayList<Section> sections) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -75,8 +65,6 @@ public class NetworkUtils implements Callback<JSONObject> {
             JSONObject model = response.body();
             JSONObject.Response jsonResponse = model.getResponse();
             ArrayList<NewsArticle> articles = jsonResponse.getResults();
-
-            mCallback.onRetrofitCompleted(articles);
         }
     }
 

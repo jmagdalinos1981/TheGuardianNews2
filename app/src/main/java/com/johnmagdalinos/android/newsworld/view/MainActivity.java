@@ -1,12 +1,10 @@
 package com.johnmagdalinos.android.newsworld.view;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,13 +19,11 @@ import android.widget.LinearLayout;
 
 import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.Section;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDatabase;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
-import com.johnmagdalinos.android.newsworld.presenter.MvPContract;
-import com.johnmagdalinos.android.newsworld.presenter.NewsPresenter;
 import com.johnmagdalinos.android.newsworld.settings.SettingsActivity;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
+import com.johnmagdalinos.android.newsworld.view.adapter.DrawerAdapter;
+import com.johnmagdalinos.android.newsworld.view.adapter.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -39,14 +35,12 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements
         DrawerAdapter.OnClickCallback,
-        MvPContract.BaseView,
-        NewsAdapter.NewsAdapterCallback,
+        NewsFragment.NewsCallback,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Member variables */
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private NewsPresenter mPresenter;
     private int mSelectedSection;
     private ArrayList<Section> mCurrentSections;
     private RecyclerView mRecyclerView, mDrawerRecyclerView;
@@ -76,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements
         setupToolbar();
 
         setupDrawer();
-
-        // Instantiate the presenter
-        mPresenter = new NewsPresenter();
 
         displayNewsList(mSelectedSection);
     }
@@ -151,18 +142,11 @@ public class MainActivity extends AppCompatActivity implements
         if (position > mCurrentSections.size() - 1) position = 0;
         String selectedSection = mCurrentSections.get(position).getSection_id();
 
-        mRecyclerView = findViewById(R.id.rv_news_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.divider_drawable);
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(drawable);
-        mRecyclerView.addItemDecoration(itemDecoration);
-        mNewsAdapter = new NewsAdapter(this,null);
-        mRecyclerView.setAdapter(mNewsAdapter);
-
-        mPresenter.inputToPresenter(this, selectedSection);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NewsFragment fragment = NewsFragment.newInstance(selectedSection);
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_fragment, fragment)
+                .commit();
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
@@ -190,45 +174,9 @@ public class MainActivity extends AppCompatActivity implements
         return result;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
-            case R.id.action_settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /** Refreshes the news list */
-    @Override
-    public void showNews(String sectionId) {
-        ArticleDatabase database = Room.databaseBuilder(this, ArticleDatabase.class,
-                "database").build();
-        NewsArticle[] articles = database.articleDao().loadSectionArticles(sectionId);
-        mNewsAdapter.swapList(articles);
-    }
-
-    /** Displays an error message */
-    @Override
-    public void showToastMessage(String message) {
-
-    }
-
     /** Launches the WebViewActivity to display the selected article */
     @Override
-    public void NewsClicked(String url) {
+    public void onNewsClicked(String url) {
         Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
         intent.putExtra(Constants.KEY_URL, url);
         startActivity(intent);
@@ -252,6 +200,27 @@ public class MainActivity extends AppCompatActivity implements
             // Refresh the drawer
             mDrawerAdapter.swapList(mCurrentSections);
             mDrawerRecyclerView.setAdapter(mDrawerAdapter);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+            case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
