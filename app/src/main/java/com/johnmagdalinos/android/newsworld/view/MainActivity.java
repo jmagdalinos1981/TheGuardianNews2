@@ -1,5 +1,6 @@
 package com.johnmagdalinos.android.newsworld.view;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -19,8 +20,9 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.model.Section;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDatabase;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract;
 import com.johnmagdalinos.android.newsworld.presenter.NewsPresenter;
 import com.johnmagdalinos.android.newsworld.settings.SettingsActivity;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements
         // Get the list of News Sections
         if (savedInstanceState == null) {
             if (getIntent() != null && !mPreferenceChanged) mCurrentSections = getIntent().getParcelableArrayListExtra
-                    (Constants.KEY_SECTION);
+                    (Constants.KEY_SECTIONS);
         } else {
             mCurrentSections = savedInstanceState.getParcelableArrayList(KEY_CURRENT_DRAWER_LIST);
         }
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // Get the last News Section from the preferences
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mSelectedSection = mSharedPrefs.getInt(Constants.KEY_SECTION, 0);
+        mSelectedSection = mSharedPrefs.getInt(Constants.KEY_SECTIONS, 0);
 
         // Setup the navigation drawer
         mDrawerRecyclerView = findViewById(R.id.rv_main_drawer);
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements
         mSelectedSection = position;
         // Save the selected section in the SharedPreferences
         SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putInt(Constants.KEY_SECTION, mSelectedSection);
+        editor.putInt(Constants.KEY_SECTIONS, mSelectedSection);
         editor.apply();
 
         // Display the correct fragment
@@ -211,7 +213,10 @@ public class MainActivity extends AppCompatActivity implements
 
     /** Refreshes the news list */
     @Override
-    public void showNews(ArrayList<NewsArticle> articles) {
+    public void showNews(String sectionId) {
+        ArticleDatabase database = Room.databaseBuilder(this, ArticleDatabase.class,
+                "database").build();
+        NewsArticle[] articles = database.articleDao().loadSectionArticles(sectionId);
         mNewsAdapter.swapList(articles);
     }
 
@@ -232,6 +237,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mPreferenceChanged = true;
+
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putBoolean(Constants.KEY_PREFS_CHANGED, true);
+        editor.apply();
 
         if (key.equals(getString(R.string.prefs_drawer_key))) {
             // Get the unselected values for the sections

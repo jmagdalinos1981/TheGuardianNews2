@@ -41,7 +41,7 @@
         </activity>
 
         <service
-            android:name=".utilities.SectionsService"
+            android:name=".utilities.SyncService"
             android:exported="false"/>
     </application>
 

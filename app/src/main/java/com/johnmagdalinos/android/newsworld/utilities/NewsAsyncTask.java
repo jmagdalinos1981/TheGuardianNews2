@@ -29,7 +29,7 @@ public class NewsAsyncTask extends AsyncTask<String, Void, ArrayList<NewsArticle
     @Override
     protected ArrayList<NewsArticle> doInBackground(String... strings) {
         NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.start(this, strings[0]);
+//        networkUtils.start(this, strings[0]);
 
         return null;
     }

@@ -25,6 +25,12 @@ public interface ArticleDao {
     @Query("SELECT * FROM articles")
     NewsArticle[] loadAllArticles();
 
+    @Query("SELECT * FROM articles WHERE sectionId LIKE :sectionTitle")
+    NewsArticle[] loadSectionArticles(String sectionTitle);
+
     @Query("DELETE FROM articles")
     void deleteAllArticles();
+
+    @Query("SELECT count(*) FROM articles")
+    long countRows();
 }

@@ -3,6 +3,7 @@ package com.johnmagdalinos.android.newsworld.utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.johnmagdalinos.android.newsworld.model.JSONObject;
+import com.johnmagdalinos.android.newsworld.model.Section;
 import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 
 import java.util.ArrayList;
@@ -35,12 +36,12 @@ public class NetworkUtils implements Callback<JSONObject> {
     public interface TheGuardianAPI {
         @GET("/search")
         Call<JSONObject> loadArticles(
-                @Query(Constants.KEY_SECTION) String section,
+                @Query(Constants.KEY_SECTIONS) String section,
                 @Query(Constants.KEY_API_KEY) String apiKey);
     }
 
     /** Setups Retrofit and Gson */
-    public void start(RetrofitCallback retrofitCallback, String section) {
+    public void start(RetrofitCallback retrofitCallback, ArrayList<Section> sections) {
         mCallback = retrofitCallback;
 
         Gson gson = new GsonBuilder()
@@ -54,14 +55,17 @@ public class NetworkUtils implements Callback<JSONObject> {
 
         TheGuardianAPI theGuardianAPI = retrofit.create(TheGuardianAPI.class);
 
-        Call<JSONObject> call = null;
-        // Check if the user selected "All news"
-        if (section.equals("allnews")) {
-            call = theGuardianAPI.loadArticles(null, ApiKeys.API_KEY);
-        } else {
-            call = theGuardianAPI.loadArticles(section, ApiKeys.API_KEY);
+        Call<JSONObject> call;
+        for (Section section : sections) {
+            String sectionTitle = section.getTitle();
+            // Check if the user selected "All news"
+            if (sectionTitle.equals("allnews")) {
+                call = theGuardianAPI.loadArticles(null, ApiKeys.API_KEY);
+            } else {
+                call = theGuardianAPI.loadArticles(sectionTitle, ApiKeys.API_KEY);
+            }
+            call.enqueue(this);
         }
-        call.enqueue(this);
     }
 
     /** Called when Retrofit was successful */
@@ -76,7 +80,7 @@ public class NetworkUtils implements Callback<JSONObject> {
         }
     }
 
-    /** Called when Retrifut Failed */
+    /** Called when Retrofit Failed */
     @Override
     public void onFailure(Call<JSONObject> call, Throwable t) {
         t.printStackTrace();

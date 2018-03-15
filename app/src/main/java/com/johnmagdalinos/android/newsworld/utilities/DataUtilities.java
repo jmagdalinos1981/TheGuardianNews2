@@ -18,7 +18,7 @@ import java.util.Date;
 public class DataUtilities {
 
     /** Converts the date provided by the API to a local date */
-    public static String convertDate(String source) {
+    public static String convertAPIDate(String source) {
         String newDate = null;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         try {
@@ -32,7 +32,7 @@ public class DataUtilities {
     }
 
     /** Converts the date provided by the API to time */
-    public static String convertTime(String source) {
+    public static String convertAPITime(String source) {
         String newTime = null;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 

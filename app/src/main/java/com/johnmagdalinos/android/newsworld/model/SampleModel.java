@@ -17,15 +17,16 @@ public class SampleModel implements NewsAsyncTask.onTaskCompletedCallback {
     public SampleModel() {
     }
 
-    public void onReceiveSectionTitle(BasePresenter basePresenter, String sectionTitle) {
+    public void onReceiveSectionTitle(BasePresenter basePresenter, String sectionId) {
         mBasePresenter = basePresenter;
-        NewsAsyncTask newsAsyncTask = new NewsAsyncTask();
-
-        newsAsyncTask.setAsyncTaskCallback(this, sectionTitle);
+        mBasePresenter.newsToPresenter(sectionId);
+//        NewsAsyncTask newsAsyncTask = new NewsAsyncTask();
+//
+//        newsAsyncTask.setAsyncTaskCallback(this, sectionTitle);
     }
 
     @Override
     public void result(ArrayList<NewsArticle> articles) {
-        mBasePresenter.newsToPresenter(articles);
+//        mBasePresenter.newsToPresenter(articles);
     }
 }

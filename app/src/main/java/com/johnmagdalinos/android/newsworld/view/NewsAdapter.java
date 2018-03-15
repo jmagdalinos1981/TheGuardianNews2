@@ -10,8 +10,6 @@ import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
-import java.util.ArrayList;
-
 /**
  * RecyclerView Adapter used to populate the RecyclerView with NewsArticles
  */
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     /** Member variables */
     private NewsAdapterCallback mCallback;
-    private ArrayList<NewsArticle> mArticles;
+    private NewsArticle[] mArticles;
     private TextView mTitleTextView, mSectionTextView, mDateTextView, mTimeTextView;
 
     /** Interface that handles click events */
@@ -28,7 +26,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     /** Class constructor */
-    public NewsAdapter(NewsAdapterCallback callback, ArrayList<NewsArticle> articles) {
+    public NewsAdapter(NewsAdapterCallback callback, NewsArticle[] articles) {
         mCallback = callback;
         mArticles = articles;
     }
@@ -43,11 +41,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
-        String dateSource = mArticles.get(position).getWebPublicationDate();
-        mTitleTextView.setText(mArticles.get(position).getWebTitle());
-        mSectionTextView.setText(mArticles.get(position).getSectionId());
-        mDateTextView.setText(DataUtilities.convertDate(dateSource));
-        mTimeTextView.setText(DataUtilities.convertTime(dateSource));
+        String dateSource = mArticles[position].getWebPublicationDate();
+        mTitleTextView.setText(mArticles[position].getWebTitle());
+        mSectionTextView.setText(mArticles[position].getSectionId());
+        mDateTextView.setText(DataUtilities.convertAPIDate(dateSource));
+        mTimeTextView.setText(DataUtilities.convertAPITime(dateSource));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (mArticles == null) {
             return 0;
         } else {
-            return mArticles.size();
+            return mArticles.length;
         }
     }
 
@@ -83,12 +81,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         @Override
         public void onClick(View view) {
-            String url = mArticles.get(getAdapterPosition()).getWebUrl();
+            String url = mArticles[getAdapterPosition()].getWebUrl();
             mCallback.NewsClicked(url);
         }
     }
 
-    public void swapList(ArrayList<NewsArticle> newArticles) {
+    public void swapList(NewsArticle[] newArticles) {
         mArticles = newArticles;
         notifyDataSetChanged();
     }

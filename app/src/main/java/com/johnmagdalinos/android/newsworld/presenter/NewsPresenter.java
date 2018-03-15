@@ -32,7 +32,7 @@ public class NewsPresenter implements
 
     /** Receives news from model */
     @Override
-    public void newsToPresenter(ArrayList<NewsArticle> articles) {
-        mBaseView.showNews(articles);
+    public void newsToPresenter(String sectionId) {
+        mBaseView.showNews(sectionId);
     }
 }

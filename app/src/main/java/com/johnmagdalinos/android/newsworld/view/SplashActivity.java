@@ -11,6 +11,7 @@ import com.johnmagdalinos.android.newsworld.R;
 import com.johnmagdalinos.android.newsworld.model.Section;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
+import com.johnmagdalinos.android.newsworld.utilities.SyncService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,15 +24,28 @@ import java.util.Set;
 
 public class SplashActivity extends AppCompatActivity {
     /** Member variables */
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<Section> sections = getSections();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Get the selected sections and the last date of sync
+        ArrayList<Section> sections = getSections();
+        long currentDate = mSharedPreferences.getLong(Constants.KEY_CURRENT_DATE, 0);
+
+        // Start the service to sync the data
+        Intent syncIntent = new Intent(SplashActivity.this, SyncService.class);
+        syncIntent.putExtra(Constants.KEY_SYNC_SERVICE, Constants.GET_ARTICLES);
+        syncIntent.putExtra(Constants.KEY_CURRENT_DATE, currentDate);
+        syncIntent.putParcelableArrayListExtra(Constants.KEY_SECTIONS, sections);
+        startService(syncIntent);
+
+        // Start the Main Activity
         Intent activityIntent = new Intent(SplashActivity.this, MainActivity.class);
-        activityIntent.putParcelableArrayListExtra(Constants.KEY_SECTION, sections);
+        activityIntent.putParcelableArrayListExtra(Constants.KEY_SECTIONS, sections);
         startActivity(activityIntent);
         finish();
     }
@@ -41,24 +55,17 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<Section> sections;
         ArrayList<String> selectedSections;
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean prefsChanged = mSharedPreferences.getBoolean(Constants.KEY_PREFS_CHANGED, false);
 
-        boolean isFirstRun = sharedPreferences.getBoolean(Constants.KEY_FIRST_RUN, true);
-
-        if (isFirstRun) {
+        // Check if the preferences have been changed
+        if (!prefsChanged) {
             // Get the default sections
             String[] defaultSections = getResources().getStringArray(R.array.section_default);
 
             selectedSections = new ArrayList<>(Arrays.asList(defaultSections));
-
-            // Save the sections in the preferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(Constants.KEY_FIRST_RUN, false);
-            editor.apply();
-
         } else {
             // Get the user-selected sections
-            Set<String> set = sharedPreferences.getStringSet(getString(R.string.prefs_drawer_key), null);
+            Set<String> set = mSharedPreferences.getStringSet(getString(R.string.prefs_drawer_key), null);
             selectedSections = new ArrayList<>(set);
         }
 

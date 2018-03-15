@@ -7,17 +7,15 @@ package com.johnmagdalinos.android.newsworld.utilities;
 public class Constants {
     /** Keys */
     public static final String KEY_API_KEY = "api-key";
-    public static final String KEY_SECTION = "section";
     public static final String KEY_URL = "url";
-    public static final String KEY_FIRST_RUN = "first_run";
-    public static final String KEY_PREFS_SET = "prefs_set";
-    public static final String KEY_SECTIONS_BROADCAST_EXTRAS = "section_extras";
+    public static final String KEY_SYNC_SERVICE = "sync_service";
 
-    /** File name for shared preferences */
-    public static final String PREFS_FILENAME = "newsworld";
+    /** Keys for SharedPreferences */
+    public static final String KEY_SECTIONS = "sections";
+    public static final String KEY_CURRENT_DATE = "currentDate";
+    public static final String KEY_PREFS_CHANGED = "prefs_changed";
 
-    /** Sections Service Intent action */
-    public static final String SECTIONS_BROADCAST_ACTION = "com.johnmagdalinos.android" +
-            ".theguardiannews.SERVICE_BROADCAST";
-
+    /** Values for Sync Service */
+    public static final String GET_ARTICLES = "get_articles";
+    public static final String SEARCH_ARTICLES = "search_articles";
 }
