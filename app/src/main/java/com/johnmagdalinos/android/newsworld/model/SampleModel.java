@@ -1,8 +1,9 @@
 package com.johnmagdalinos.android.newsworld.model;
 
+import android.arch.lifecycle.ViewModel;
+
 import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 import com.johnmagdalinos.android.newsworld.presenter.MvPContract.BasePresenter;
-import com.johnmagdalinos.android.newsworld.utilities.NewsAsyncTask;
 
 import java.util.ArrayList;
 
@@ -10,9 +11,9 @@ import java.util.ArrayList;
  * Sample Model used to download articles from the API and pass them to the presenter
  */
 
-public class SampleModel implements NewsAsyncTask.onTaskCompletedCallback {
+public class ArticleViewModel extends ViewModel {
 
-    private BasePresenter mBasePresenter;
+
 
     public SampleModel() {
     }
