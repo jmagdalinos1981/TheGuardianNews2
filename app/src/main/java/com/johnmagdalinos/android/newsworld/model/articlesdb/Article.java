@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "articles",
         primaryKeys = {"webTitle"})
-public class NewsArticle {
+public class Article {
 
     /** Member variables/Database Columns */
     @NonNull

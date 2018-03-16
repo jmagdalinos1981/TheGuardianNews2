@@ -15,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.johnmagdalinos.android.newsworld.R;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.utilities.Constants;
 import com.johnmagdalinos.android.newsworld.view.adapter.NewsAdapter;
 import com.johnmagdalinos.android.newsworld.viewmodel.ArticleViewModel;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
-import com.johnmagdalinos.android.newsworld.utilities.Constants;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Gianni on 15/03/2018.
@@ -32,7 +32,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.NewsAdapterCal
     private String mSectionId;
     private RecyclerView mRecyclerView;
     private NewsAdapter mNewsAdapter;
-    private ArrayList<NewsArticle> mArticles;
     private NewsCallback mCallback;
 
     public interface NewsCallback {
@@ -63,11 +62,11 @@ public class NewsFragment extends Fragment implements NewsAdapter.NewsAdapterCal
         super.onActivityCreated(savedInstanceState);
         mSectionId = getArguments().getString(Constants.KEY_SECTION_ID);
         mViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
-        mViewModel.init(mArticles);
-        mViewModel.getArticles().observe(this, new Observer<ArrayList<NewsArticle>>() {
+        mViewModel.init(mSectionId);
+        mViewModel.getArticles().observe(this, new Observer<List<Article>>() {
             @Override
-            public void onChanged(@Nullable ArrayList<NewsArticle> newsArticles) {
-                mNewsAdapter.swapList(newsArticles);
+            public void onChanged(@Nullable List<Article> articles) {
+                mNewsAdapter.swapList(articles);
             }
         });
     }

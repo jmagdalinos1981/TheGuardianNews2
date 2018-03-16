@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.johnmagdalinos.android.newsworld.model.JSONObject;
 import com.johnmagdalinos.android.newsworld.model.Section;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDao;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,8 @@ import retrofit2.http.Query;
  */
 
 public class NetworkUtils implements Callback<JSONObject> {
+    /** Member variables */
+    private ArticleDao mArticleDao;
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
 
@@ -33,7 +36,9 @@ public class NetworkUtils implements Callback<JSONObject> {
     }
 
     /** Setups Retrofit and Gson */
-    public void start(ArrayList<Section> sections) {
+    public void start(ArticleDao articleDao, ArrayList<Section> sections) {
+        mArticleDao = articleDao;
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -64,7 +69,11 @@ public class NetworkUtils implements Callback<JSONObject> {
         if (response.isSuccessful()) {
             JSONObject model = response.body();
             JSONObject.Response jsonResponse = model.getResponse();
-            ArrayList<NewsArticle> articles = jsonResponse.getResults();
+            ArrayList<Article> articles = jsonResponse.getResults();
+
+            // Convert the ArrayList to an Array and insert values into the database
+            Article[] newsArticles = articles.toArray(new Article[articles.size()]);
+            mArticleDao.insertArticles(newsArticles);
         }
     }
 

@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RecyclerView Adapter used to populate the RecyclerView with NewsArticles
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     /** Member variables */
     private NewsAdapterCallback mCallback;
-    private ArrayList<NewsArticle> mArticles;
+    private List<Article> mArticles;
     private TextView mTitleTextView, mSectionTextView, mDateTextView, mTimeTextView;
 
     /** Interface that handles click events */
@@ -28,7 +28,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     /** Class constructor */
-    public NewsAdapter(NewsAdapterCallback callback, ArrayList<NewsArticle> articles) {
+    public NewsAdapter(NewsAdapterCallback callback, List<Article> articles) {
         mCallback = callback;
         mArticles = articles;
     }
@@ -88,7 +88,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
     }
 
-    public void swapList(ArrayList<NewsArticle> newArticles) {
+    public void swapList(List<Article> newArticles) {
         mArticles = newArticles;
         notifyDataSetChanged();
     }

@@ -1,6 +1,6 @@
 package com.johnmagdalinos.android.newsworld.model;
 
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class JSONObject {
     }
 
     public class Response {
-        private ArrayList<NewsArticle> results;
+        private ArrayList<Article> results;
         private String status;
 
         public String getStatus() {
@@ -28,10 +28,10 @@ public class JSONObject {
         public void setStatus(String status) {
             this.status = status;
         }
-        public ArrayList<NewsArticle> getResults() {
+        public ArrayList<Article> getResults() {
             return results;
         }
-        public void setResults(ArrayList<NewsArticle> results) {
+        public void setResults(ArrayList<Article> results) {
             this.results = results;
         }
     }

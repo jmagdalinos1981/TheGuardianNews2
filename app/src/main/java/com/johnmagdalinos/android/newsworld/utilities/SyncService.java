@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.johnmagdalinos.android.newsworld.model.Section;
+import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDao;
 import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDatabase;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.NewsArticle;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Gianni on 08/02/2018.
  */
 
-public class SyncService extends IntentService implements NetworkUtils.RetrofitCallback {
+public class SyncService extends IntentService {
     /** Member variables */
     private ArticleDatabase mDb;
 
@@ -72,13 +72,9 @@ public class SyncService extends IntentService implements NetworkUtils.RetrofitC
 
     /** Syncs the articles */
     private void syncArticles(ArrayList<Section> sections) {
+        ArticleDatabase db = Room.databaseBuilder(this, ArticleDatabase.class, "database").build();
+        ArticleDao articleDao= db.articleDao();
         NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.start(this, sections);
-    }
-
-    @Override
-    public void onRetrofitCompleted(ArrayList<NewsArticle> articles) {
-        NewsArticle[] newsArticles = articles.toArray(new NewsArticle[articles.size()]);
-        mDb.articleDao().insertArticles(newsArticles);
+        networkUtils.start(articleDao,sections);
     }
 }
