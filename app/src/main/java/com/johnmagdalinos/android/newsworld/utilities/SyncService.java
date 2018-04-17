@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.johnmagdalinos.android.newsworld.model.Section;
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDatabase;
+import com.johnmagdalinos.android.newsworld.repository.ArticleRepository;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SyncService extends IntentService {
     /** Member variables */
-    private ArticleDatabase mDb;
+    private ArticleRepository mArticleRepo;
 
 
     /** Class constructor */
@@ -28,8 +29,13 @@ public class SyncService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        mDb = Room.databaseBuilder(getApplicationContext(), ArticleDatabase.class, "articles")
-                .build();
+        ArticleDao articleDao = Room.databaseBuilder(
+                getApplicationContext(),
+                ArticleDatabase.class,
+                Constants.DB_NAME)
+                .build()
+                .articleDao();
+        mArticleRepo = new ArticleRepository(articleDao);
 
         String intentString = intent.getStringExtra(Constants.KEY_SYNC_SERVICE);
         ArrayList<Section> sections = intent.getParcelableArrayListExtra(Constants.KEY_SECTIONS);
@@ -46,7 +52,7 @@ public class SyncService extends IntentService {
 
     /** Retrieves the articles from the API */
     private void getArticles(ArrayList<Section> sections, long prefsDateLong) {
-        long rows = mDb.articleDao().countRows();
+        long rows = mArticleRepo.countArticles();
         long currentDate = System.currentTimeMillis();
 
         // News should be deleted after 1 day
@@ -55,14 +61,12 @@ public class SyncService extends IntentService {
 
         if (rows > 0) {
             if (newsExpired) {
-                mDb.articleDao().deleteAllArticles();
+                mArticleRepo.clearArticles();
                 syncArticles(sections);
             }
         } else {
             syncArticles(sections);
         }
-
-
     }
 
     /** Searches the API for the requested articles */
@@ -72,9 +76,8 @@ public class SyncService extends IntentService {
 
     /** Syncs the articles */
     private void syncArticles(ArrayList<Section> sections) {
-        ArticleDatabase db = Room.databaseBuilder(this, ArticleDatabase.class, "database").build();
-        ArticleDao articleDao= db.articleDao();
-        NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.start(articleDao, sections);
+        for (Section section : sections) {
+            mArticleRepo.addArticles(section);
+        }
     }
 }

@@ -1,12 +1,14 @@
 package com.johnmagdalinos.android.newsworld.dependecyinjection;
 
 import android.app.Application;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.persistence.room.Room;
 
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDatabase;
 import com.johnmagdalinos.android.newsworld.repository.ArticleRepository;
-import com.johnmagdalinos.android.newsworld.utilities.NetworkUtils;
+import com.johnmagdalinos.android.newsworld.utilities.Constants;
+import com.johnmagdalinos.android.newsworld.viewmodel.ArticleViewModelFactory;
 
 import javax.inject.Singleton;
 
@@ -22,25 +24,31 @@ public class RoomModule {
         this.database = Room.databaseBuilder(
                 application,
                 ArticleDatabase.class,
-                "database.db")
+                Constants.DB_NAME)
                 .build();
     }
 
     @Provides
     @Singleton
-    ArticleRepository provideArticleRepository(NetworkUtils networkUtils, ArticleDao articleDao) {
-        return new ArticleRepository(networkUtils, articleDao);
-    }
-
-    @Provides
-    @Singleton
-    NetworkUtils provideNetworkUtils() {
-        return new NetworkUtils();
+    ArticleRepository provideArticleRepository(ArticleDao articleDao) {
+        return new ArticleRepository(articleDao);
     }
 
     @Provides
     @Singleton
     ArticleDao provideArticleDao(ArticleDatabase database) {
         return database.articleDao();
+    }
+
+    @Provides
+    @Singleton
+    ArticleDatabase provideArticleDatabase(Application application) {
+        return database;
+    }
+
+    @Provides
+    @Singleton
+    ViewModelProvider.Factory provideViewModelFactory(ArticleRepository repository) {
+        return new ArticleViewModelFactory(repository);
     }
 }

@@ -26,7 +26,7 @@ public interface ArticleDao {
     void deleteArticles(Article... articles);
 
     @Query("SELECT * FROM articles")
-    List<Article> loadAllArticles();
+    LiveData<List<Article>> loadAllArticles();
 
     @Query("SELECT * FROM articles WHERE sectionId LIKE :sectionTitle")
     LiveData<List<Article>> loadSectionArticles(String sectionTitle);

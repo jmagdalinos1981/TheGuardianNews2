@@ -55,20 +55,18 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<Section> sections;
         ArrayList<String> selectedSections;
 
-        boolean prefsChanged = mSharedPreferences.getBoolean(Constants.KEY_PREFS_CHANGED, false);
+        // Get the user-selected sections
+        Set<String> set = mSharedPreferences.getStringSet(getString(R.string.prefs_drawer_key), null);
 
-        // Check if the preferences have been changed
-        if (!prefsChanged) {
+        if (set != null) {
+            // Sections have been changed
+            selectedSections = new ArrayList<>(set);
+        } else {
             // Get the default sections
             String[] defaultSections = getResources().getStringArray(R.array.section_default);
 
             selectedSections = new ArrayList<>(Arrays.asList(defaultSections));
-        } else {
-            // Get the user-selected sections
-            Set<String> set = mSharedPreferences.getStringSet(getString(R.string.prefs_drawer_key), null);
-            selectedSections = new ArrayList<>(set);
         }
-
         sections = DataUtilities.getSelectedSections(this, selectedSections);
 
         return sections;

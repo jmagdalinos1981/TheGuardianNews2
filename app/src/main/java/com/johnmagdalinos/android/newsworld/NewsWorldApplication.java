@@ -19,7 +19,6 @@ public class NewsWorldApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .roomModule(new RoomModule(this))
                 .build();
-
     }
 
     public ApplicationComponent getAppComponent() {

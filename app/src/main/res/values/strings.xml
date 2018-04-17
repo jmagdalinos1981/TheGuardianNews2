@@ -29,7 +29,7 @@
     <string name="menu_world">World</string>
 
     <!-- API Section Ids -->
-    <string name="section_id_all_news" translatable="false">allnews</string>
+    <string name="section_id_all_news" translatable="false">all_news</string>
     <string name="section_id_artanddesign" translatable="false">artanddesign</string>
     <string name="section_id_books" translatable="false">books</string>
     <string name="section_id_business" translatable="false">business</string>

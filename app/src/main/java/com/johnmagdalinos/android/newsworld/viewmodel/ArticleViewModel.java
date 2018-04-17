@@ -5,10 +5,9 @@ import android.arch.lifecycle.ViewModel;
 
 import com.johnmagdalinos.android.newsworld.model.database.Article;
 import com.johnmagdalinos.android.newsworld.repository.ArticleRepository;
+import com.johnmagdalinos.android.newsworld.utilities.Constants;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Created by Gianni on 15/03/2018.
@@ -20,17 +19,19 @@ public class ArticleViewModel extends ViewModel {
     private LiveData<List<Article>> mArticles;
     private ArticleRepository mArticleRepo;
 
-    @Inject
     public ArticleViewModel(ArticleRepository repo) {
         mArticleRepo = repo;
     }
 
-    @Inject
     public void init(String sectionId) {
         if (mSectionId != null) return;
         mSectionId = sectionId;
 
-        mArticles = mArticleRepo.loadArticles(sectionId);
+        if (mSectionId.equals(Constants.KEY_ALL_NEWS)) {
+            mArticles = mArticleRepo.loadAllArticles();
+        } else {
+            mArticles = mArticleRepo.loadArticles(sectionId);
+        }
     }
 
     public LiveData<List<Article>> getArticles() {
