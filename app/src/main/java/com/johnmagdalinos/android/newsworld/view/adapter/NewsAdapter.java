@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.model.database.Article;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 
 import java.util.List;

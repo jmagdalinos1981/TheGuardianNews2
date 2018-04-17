@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.newsworld.model.articlesdb;
+package com.johnmagdalinos.android.newsworld.model.database;
 
 import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;

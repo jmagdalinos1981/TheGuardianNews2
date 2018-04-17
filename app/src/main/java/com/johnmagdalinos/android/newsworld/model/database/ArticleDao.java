@@ -1,4 +1,4 @@
-package com.johnmagdalinos.android.newsworld.model.articlesdb;
+package com.johnmagdalinos.android.newsworld.model.database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

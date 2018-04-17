@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.johnmagdalinos.android.newsworld.model.Section;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDao;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDatabase;
+import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
+import com.johnmagdalinos.android.newsworld.model.database.ArticleDatabase;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -75,6 +75,6 @@ public class SyncService extends IntentService {
         ArticleDatabase db = Room.databaseBuilder(this, ArticleDatabase.class, "database").build();
         ArticleDao articleDao= db.articleDao();
         NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.start(articleDao,sections);
+        networkUtils.start(articleDao, sections);
     }
 }

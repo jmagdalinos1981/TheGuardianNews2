@@ -3,7 +3,7 @@ package com.johnmagdalinos.android.newsworld.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.model.database.Article;
 import com.johnmagdalinos.android.newsworld.repository.ArticleRepository;
 
 import java.util.List;
@@ -20,8 +20,6 @@ public class ArticleViewModel extends ViewModel {
     private LiveData<List<Article>> mArticles;
     private ArticleRepository mArticleRepo;
 
-    public ArticleViewModel(){}
-
     @Inject
     public ArticleViewModel(ArticleRepository repo) {
         mArticleRepo = repo;
@@ -31,9 +29,8 @@ public class ArticleViewModel extends ViewModel {
     public void init(String sectionId) {
         if (mSectionId != null) return;
         mSectionId = sectionId;
-        mArticleRepo = repo;
 
-        mArticles = mArticleRepo.syncArticles(sectionId);
+        mArticles = mArticleRepo.loadArticles(sectionId);
     }
 
     public LiveData<List<Article>> getArticles() {

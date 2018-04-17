@@ -71,7 +71,6 @@ public class SplashActivity extends AppCompatActivity {
 
         sections = DataUtilities.getSelectedSections(this, selectedSections);
 
-
         return sections;
     }
 }

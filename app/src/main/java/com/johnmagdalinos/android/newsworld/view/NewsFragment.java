@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.johnmagdalinos.android.newsworld.R;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.model.database.Article;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
 import com.johnmagdalinos.android.newsworld.view.adapter.NewsAdapter;
 import com.johnmagdalinos.android.newsworld.viewmodel.ArticleViewModel;

@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.johnmagdalinos.android.newsworld.model.JSONObject;
 import com.johnmagdalinos.android.newsworld.model.Section;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
-import com.johnmagdalinos.android.newsworld.model.articlesdb.ArticleDao;
+import com.johnmagdalinos.android.newsworld.model.database.Article;
+import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
 
 import java.util.ArrayList;
 
@@ -24,6 +24,7 @@ import retrofit2.http.Query;
 public class NetworkUtils implements Callback<JSONObject> {
     /** Member variables */
     private ArticleDao mArticleDao;
+
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
 

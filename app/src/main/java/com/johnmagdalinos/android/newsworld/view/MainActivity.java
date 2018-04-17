@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         setupToolbar();
-
         setupDrawer();
-
         displayNewsList(mSelectedSection);
     }
 

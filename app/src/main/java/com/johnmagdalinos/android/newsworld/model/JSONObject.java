@@ -1,6 +1,6 @@
 package com.johnmagdalinos.android.newsworld.model;
 
-import com.johnmagdalinos.android.newsworld.model.articlesdb.Article;
+import com.johnmagdalinos.android.newsworld.model.database.Article;
 
 import java.util.ArrayList;
 
