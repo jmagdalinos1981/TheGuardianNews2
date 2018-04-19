@@ -32,8 +32,9 @@ public class RoomModule {
 
     @Provides
     @Singleton
-    ArticleRepository provideArticleRepository(ArticleDao articleDao, SharedPreferences sharedPreferences) {
-        return new ArticleRepository(articleDao, sharedPreferences);
+    ArticleRepository provideArticleRepository(ArticleDao articleDao, SharedPreferences
+            sharedPreferences, Application application) {
+        return new ArticleRepository(articleDao, sharedPreferences, application);
     }
 
     @Provides

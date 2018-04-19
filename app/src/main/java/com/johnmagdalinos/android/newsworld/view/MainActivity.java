@@ -1,6 +1,9 @@
 package com.johnmagdalinos.android.newsworld.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +27,6 @@ import com.johnmagdalinos.android.newsworld.settings.SettingsActivity;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
 import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 import com.johnmagdalinos.android.newsworld.view.adapter.DrawerAdapter;
-import com.johnmagdalinos.android.newsworld.view.adapter.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -43,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements
     private Toolbar mToolbar;
     private int mSelectedSection;
     private ArrayList<Section> mCurrentSections;
-    private RecyclerView mRecyclerView, mDrawerRecyclerView;
+    private RecyclerView mDrawerRecyclerView;
     private DrawerAdapter mDrawerAdapter;
-    private NewsAdapter mNewsAdapter;
     private SharedPreferences mSharedPrefs;
+    private MainBroadcastReceiver mBroadcastReceiver;
 
     /** Flag stating that a preference has changed */
     private boolean mPreferenceChanged = false;
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mBroadcastReceiver = new MainBroadcastReceiver();
 
         // Get the list of News Sections
         if (savedInstanceState == null) {
@@ -84,9 +89,19 @@ public class MainActivity extends AppCompatActivity implements
         super.onResume();
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
+
+        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_SYNC_COMPLETED);
+        registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
-    /** Unregister the OnSharedPreferenceChangeListener */
+    /** Register the MainBroadcastReceiver */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mBroadcastReceiver);
+    }
+
+    /** Unregister the OnSharedPreferenceChangeListener and the MainBroadcastReceiver */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -219,6 +234,16 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /** BroadcastReceiver used to update the UI when the sync is completed */
+    private class MainBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.v("testing", "received!!!");
+            displayNewsList(mSelectedSection);
         }
     }
 

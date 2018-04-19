@@ -24,4 +24,8 @@ public class Constants {
 
     /** Database Name */
     public static final String DB_NAME = "articles.db";
+
+    /** Broadcast receiver action for network operation */
+    public static final String ACTION_SYNC_COMPLETED = "com.johnmagdalinos.android.newsworld" +
+            ".SYNC_COMPLETED";
 }

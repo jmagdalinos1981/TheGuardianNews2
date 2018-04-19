@@ -39,7 +39,7 @@ public class SyncService extends IntentService {
                 Constants.DB_NAME)
                 .build()
                 .articleDao();
-        mArticleRepo = new ArticleRepository(articleDao, sharedPreferences);
+        mArticleRepo = new ArticleRepository(articleDao, sharedPreferences, this.getApplication());
 
         String intentString = intent.getStringExtra(Constants.KEY_SYNC_SERVICE);
         ArrayList<Section> sections = intent.getParcelableArrayListExtra(Constants.KEY_SECTIONS);
@@ -84,8 +84,6 @@ public class SyncService extends IntentService {
 
     /** Syncs the articles */
     private void syncArticles(ArrayList<Section> sections) {
-        for (Section section : sections) {
-            mArticleRepo.addArticles(section);
-        }
+        mArticleRepo.addArticles(sections);
     }
 }

@@ -1,6 +1,8 @@
 package com.johnmagdalinos.android.newsworld.repository;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
@@ -36,14 +38,17 @@ public class ArticleRepository {
     private static WebService mWebService;
     private static ArticleDao mArticleDao;
     private static SharedPreferences mSharedPrefs;
+    private static Application mApplication;
 
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
 
     @Inject
-    public ArticleRepository(ArticleDao articleDao, SharedPreferences sharedPreferences) {
+    public ArticleRepository(ArticleDao articleDao, SharedPreferences sharedPreferences,
+                             Application application) {
         mArticleDao = articleDao;
         mSharedPrefs = sharedPreferences;
+        mApplication = application;
     }
 
     /** Used to load articles from a section */
@@ -67,15 +72,15 @@ public class ArticleRepository {
     }
 
     /** Used to store the articles in the database */
-    public void addArticles(Section section) {
-        new AddArticlesToDbTask().execute(section);
+    public void addArticles(List<Section> sections) {
+        new AddArticlesToDbTask().execute(sections);
     }
 
-    private static class AddArticlesToDbTask extends AsyncTask<Section, Void, Void> {
+    private static class AddArticlesToDbTask extends AsyncTask<List<Section>, Void, Void> {
 
         @Override
-        protected Void doInBackground(Section... sections) {
-            Section section = sections[0];
+        protected Void doInBackground(List<Section>... sectionList) {
+            List<Section> sections = sectionList[0];
 
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -90,34 +95,41 @@ public class ArticleRepository {
 
             Call<JSONObject> call;
 
-            String sectionId = section.getSection_id();
-            // Check if the user selected "All news"
-            if (sectionId.equals(Constants.KEY_ALL_NEWS)) {
-                call = mWebService.loadArticles(null, ApiKeys.API_KEY);
-            } else {
-                call = mWebService.loadArticles(sectionId, ApiKeys.API_KEY);
-            }
-
-            try {
-                Response response = call.execute();
-                if (response.isSuccessful()) {
-                    JSONObject model = (JSONObject) response.body();
-                    JSONObject.Response jsonResponse = model.getResponse();
-                    ArrayList<Article> articles = jsonResponse.getResults();
-
-                    // Convert the ArrayList to an Array and insert values into the database
-                    Article[] newsArticles = articles.toArray(new Article[articles.size()]);
-
-                    mArticleDao.insertArticles(newsArticles);
+            for (Section section : sections) {
+                String sectionId = section.getSection_id();
+                // Check if the user selected "All news"
+                if (sectionId.equals(Constants.KEY_ALL_NEWS)) {
+                    call = mWebService.loadArticles(null, ApiKeys.API_KEY);
+                } else {
+                    call = mWebService.loadArticles(sectionId, ApiKeys.API_KEY);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                try {
+                    Response response = call.execute();
+                    if (response.isSuccessful()) {
+                        JSONObject model = (JSONObject) response.body();
+                        JSONObject.Response jsonResponse = model.getResponse();
+                        ArrayList<Article> articles = jsonResponse.getResults();
+
+                        // Convert the ArrayList to an Array and insert values into the database
+                        Article[] newsArticles = articles.toArray(new Article[articles.size()]);
+
+                        mArticleDao.insertArticles(newsArticles);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             // Save the date and time of insertion
             SharedPreferences.Editor editor = mSharedPrefs.edit();
             editor.putLong(Constants.KEY_LAST_SYNC_DATE, DataUtilities.convertCurrentDateToLong());
             editor.commit();
+
+            // Notify the broadcast receiver that the sync is complete
+            Intent intent = new Intent();
+            intent.setAction(Constants.ACTION_SYNC_COMPLETED);
+            mApplication.sendBroadcast(intent);
         return null;
         }
     }
