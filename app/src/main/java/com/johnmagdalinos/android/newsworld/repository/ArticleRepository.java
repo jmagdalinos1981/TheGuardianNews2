@@ -1,6 +1,7 @@
 package com.johnmagdalinos.android.newsworld.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import com.johnmagdalinos.android.newsworld.model.database.Article;
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
 import com.johnmagdalinos.android.newsworld.utilities.ApiKeys;
 import com.johnmagdalinos.android.newsworld.utilities.Constants;
+import com.johnmagdalinos.android.newsworld.utilities.DataUtilities;
 import com.johnmagdalinos.android.newsworld.utilities.WebService;
 
 import java.io.IOException;
@@ -31,15 +33,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Singleton
 public class ArticleRepository {
-    private WebService mWebService;
-    private ArticleDao mArticleDao;
+    private static WebService mWebService;
+    private static ArticleDao mArticleDao;
+    private static SharedPreferences mSharedPrefs;
 
     /** Base url of the api */
     private static final String BASE_URL = "https://content.guardianapis.com";
 
     @Inject
-    public ArticleRepository(ArticleDao articleDao) {
+    public ArticleRepository(ArticleDao articleDao, SharedPreferences sharedPreferences) {
         mArticleDao = articleDao;
+        mSharedPrefs = sharedPreferences;
     }
 
     /** Used to load articles from a section */
@@ -67,7 +71,7 @@ public class ArticleRepository {
         new AddArticlesToDbTask().execute(section);
     }
 
-    private class AddArticlesToDbTask extends AsyncTask<Section, Void, Void> {
+    private static class AddArticlesToDbTask extends AsyncTask<Section, Void, Void> {
 
         @Override
         protected Void doInBackground(Section... sections) {
@@ -109,6 +113,11 @@ public class ArticleRepository {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // Save the date and time of insertion
+            SharedPreferences.Editor editor = mSharedPrefs.edit();
+            editor.putLong(Constants.KEY_LAST_SYNC_DATE, DataUtilities.convertCurrentDateToLong());
+            editor.commit();
         return null;
         }
     }

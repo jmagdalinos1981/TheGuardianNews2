@@ -87,8 +87,14 @@ public class NewsFragment extends Fragment implements NewsAdapter.NewsAdapterCal
             @Override
             public void onChanged(@Nullable List<Article> articles) {
                 if (mArticles == null) {
-                    Log.v("testing", "onChanged");
                     refreshArticles(articles);
+                    long size;
+                    if (articles == null) {
+                        size = 0;
+                    } else {
+                        size = articles.size();
+                    }
+                    Log.v("testing", "articles: " + String.valueOf(size));
                 }
             }
         });
@@ -112,7 +118,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.NewsAdapterCal
 
     /** Refreshes the recycler view */
     private void refreshArticles(List<Article> articles) {
-        Log.v("testing", "refresh");
         mArticles = articles;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

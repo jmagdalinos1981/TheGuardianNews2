@@ -15,7 +15,7 @@ public class Constants {
 
     /** Keys for SharedPreferences */
     public static final String KEY_SECTIONS = "sections";
-    public static final String KEY_CURRENT_DATE = "currentDate";
+    public static final String KEY_LAST_SYNC_DATE = "syncDate";
     public static final String KEY_PREFS_CHANGED = "prefs_changed";
 
     /** Values for Sync Service */

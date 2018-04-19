@@ -3,6 +3,8 @@ package com.johnmagdalinos.android.newsworld.dependecyinjection;
 import android.app.Application;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.persistence.room.Room;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDao;
 import com.johnmagdalinos.android.newsworld.model.database.ArticleDatabase;
@@ -30,8 +32,8 @@ public class RoomModule {
 
     @Provides
     @Singleton
-    ArticleRepository provideArticleRepository(ArticleDao articleDao) {
-        return new ArticleRepository(articleDao);
+    ArticleRepository provideArticleRepository(ArticleDao articleDao, SharedPreferences sharedPreferences) {
+        return new ArticleRepository(articleDao, sharedPreferences);
     }
 
     @Provides
@@ -50,5 +52,11 @@ public class RoomModule {
     @Singleton
     ViewModelProvider.Factory provideViewModelFactory(ArticleRepository repository) {
         return new ArticleViewModelFactory(repository);
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
     }
 }

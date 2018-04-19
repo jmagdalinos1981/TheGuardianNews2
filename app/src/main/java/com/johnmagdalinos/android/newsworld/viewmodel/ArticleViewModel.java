@@ -37,5 +37,4 @@ public class ArticleViewModel extends ViewModel {
     public LiveData<List<Article>> getArticles() {
         return mArticles;
     }
-
 }

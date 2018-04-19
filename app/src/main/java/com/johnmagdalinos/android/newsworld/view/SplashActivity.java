@@ -34,12 +34,12 @@ public class SplashActivity extends AppCompatActivity {
 
         // Get the selected sections and the last date of sync
         ArrayList<Section> sections = getSections();
-        long currentDate = mSharedPreferences.getLong(Constants.KEY_CURRENT_DATE, 0);
+        long currentDate = mSharedPreferences.getLong(Constants.KEY_LAST_SYNC_DATE, 0);
 
         // Start the service to sync the data
         Intent syncIntent = new Intent(SplashActivity.this, SyncService.class);
         syncIntent.putExtra(Constants.KEY_SYNC_SERVICE, Constants.GET_ARTICLES);
-        syncIntent.putExtra(Constants.KEY_CURRENT_DATE, currentDate);
+        syncIntent.putExtra(Constants.KEY_LAST_SYNC_DATE, currentDate);
         syncIntent.putParcelableArrayListExtra(Constants.KEY_SECTIONS, sections);
         startService(syncIntent);
 

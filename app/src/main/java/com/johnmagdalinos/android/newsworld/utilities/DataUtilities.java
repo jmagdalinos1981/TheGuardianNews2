@@ -17,6 +17,12 @@ import java.util.Date;
 
 public class DataUtilities {
 
+
+    /** Converts the current date into long */
+    public static long convertCurrentDateToLong() {
+        return System.currentTimeMillis();
+    }
+
     /** Converts the date provided by the API to a local date */
     public static String convertAPIDate(String source) {
         String newDate = null;
